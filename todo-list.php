@@ -34,6 +34,7 @@ class ToDoList
 
         $db = new TLD\DB();
         $db->register_ajax_hooks();
+        $db->register_rest_routes();
 
         $views = new TLD\Views();
         $views->register_public_views();

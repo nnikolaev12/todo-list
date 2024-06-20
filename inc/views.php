@@ -10,6 +10,7 @@ class Views {
      */
     public function register_public_views() {
         add_shortcode( 'todo-list', [ $this, 'shortcode_callback' ] );
+        add_action( 'init', [$this, 'register_gutenberg_block'] );
     }
 
     public function shortcode_callback() {
@@ -18,6 +19,10 @@ class Views {
         $content = ob_get_clean();
 
         return $content;
+    }
+
+    public function register_gutenberg_block() {
+        register_block_type( __DIR__ . '/blocks/todo-list/build' );
     }
 
     /**

@@ -26,6 +26,26 @@ class DB {
     }
 
     /**
+     * Register REST route for Guttenberg block consumption
+     */
+    public function register_rest_routes()
+    {
+        add_action( 'rest_api_init', function () {
+            register_rest_route( 'tasks/v1', '/all', [
+                'methods' => 'GET',
+                'callback' => [ $this, 'rest_get_all_tasks' ],
+                'permission_callback' => '__return_true'
+            ] );
+        } );
+    }
+
+    public function rest_get_all_tasks() {
+        $result = $this->db->get_results("SELECT * FROM $this->table_name");
+
+        return rest_ensure_response( $result );
+    }
+
+    /**
      * Get all tasks from the database from an AJAX request
      */
     public function get_all_tasks() {
