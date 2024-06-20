@@ -14,6 +14,122 @@ class DB {
     }
 
     /**
+     * Register the AJAX hooks for the plugin
+     */
+    public function register_ajax_hooks() {
+        add_action( 'wp_ajax_get_tasks', [ $this, 'get_all_tasks' ] );
+        add_action( 'wp_ajax_create_task', [ $this, 'create_new_task' ] );
+        add_action( 'wp_ajax_update_task', [ $this, 'update_task' ] );
+        add_action( 'wp_ajax_delete_task', [ $this, 'delete_task' ] );
+    }
+
+    /**
+     * Get all tasks from the database from an AJAX request
+     */
+    public function get_all_tasks() {
+        $tasks = $this->db->get_results("SELECT * FROM $this->table_name");
+        $result = [
+            'type' => 'error',
+            'data' => $tasks
+        ];
+
+        if ( ! empty( $tasks ) ) {
+            $result['type'] = 'success';
+
+        }
+
+        echo json_encode($result);
+        die;
+    }
+
+    /**
+     * Create a new task in the database from an AJAX request
+     */
+    public function create_new_task() {
+        $result = [
+            'type' => 'error',
+        ];
+
+        if ( empty( $_POST['title']) || empty( $_POST['description'] ) ) {
+            echo json_encode( $result );
+            die;
+        }
+
+        $title = sanitize_text_field( $_POST['title'] );
+        $description = sanitize_text_field( $_POST['description'] );
+
+        $create = $this->db->insert($this->table_name, [
+            'title' => $title,
+            'description' => $description
+        ]);
+
+        if ( $create ) {
+            $result['type'] = 'success';
+        }
+
+        echo json_encode( $result );
+        die;
+    }
+
+    /**
+     * Update a task in the database from an AJAX request
+     */
+    public function update_task()
+    {
+        $result = [
+            'type' => 'error',
+        ];
+
+        if ( empty( $_POST['id'] ) || empty( $_POST['title'] ) || empty( $_POST['description'] ) ) {
+            echo json_encode( $result );
+            die;
+        }
+
+        $id = intval( $_POST['id'] );
+        $title = sanitize_text_field( $_POST['title'] );
+        $description = sanitize_text_field( $_POST['description'] );
+
+        $update = $this->db->update( $this->table_name, [
+            'title' => $title,
+            'description' => $description
+        ], ['id' => $id]);
+
+        if ( $update ) {
+            $result['type'] = 'success';
+        }
+
+        echo json_encode( $result );
+        die;
+    }
+
+    /**
+     * Delete a task from the database from an AJAX request
+     */
+    public function delete_task() {
+        $result = [
+            'type' => 'error',
+        ];
+
+        if ( empty( $_POST['id'] ) ) {
+            echo json_encode( $result );
+            die;
+        }
+
+        $id = intval( $_POST['id'] );
+
+        $delete = $this->db->delete( $this->table_name, [
+            'id' => $id
+        ] );
+
+        if ( $delete ) {
+            $result['type'] = 'success';
+        }
+
+        echo json_encode( $result );
+        die;
+    }
+
+    /**
      * Create the tasks table on plugin activation
      */
     public function migrate() {

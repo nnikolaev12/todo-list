@@ -1,0 +1,99 @@
+/** Colors **/
+:root {
+  --tdl-clr-white: #fff;
+  --tdl-clr-black: #000;
+  --tdl-clr-primary: #007bff;
+  --tld-clr-secondary: #b32d2e;
+}
+
+.todo-list {
+  max-width: 800px;
+
+  &__btn {
+    border-radius: 2.5rem;
+    color: var(--tdl-clr-white);
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    &--primary {
+      background: var(--tdl-clr-primary);
+    }
+
+    &--secondary {
+      background: var(--tld-clr-secondary);
+    }
+  }
+
+  &__tasks {
+    &--item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid var(--tdl-clr-primary);
+      border-radius: 0.5rem;
+
+      div:last-child {
+        width: 8rem;
+      }
+    }
+  }
+
+  &__add-task {
+    display: none;
+    padding: 1rem 2rem;
+    border: 1px solid var(--tdl-clr-black);
+    border-radius: 1rem;
+    margin-top: 1rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      margin-bottom: 1rem;
+    }
+
+    input,
+    textarea {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--tdl-clr-black);
+    }
+  }
+
+  &__edit-task {
+    display: none;
+    position: fixed;
+    top: 8rem;
+    background: var(--tdl-clr-white);
+    left: 30%;
+    transform: translateX(-50%);
+    border: 1px solid var(--tdl-clr-black);
+    padding: 1rem;
+
+    &--close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      margin-bottom: 1rem;
+    }
+
+    input,
+    textarea {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--tdl-clr-black);
+    }
+  }
+}
