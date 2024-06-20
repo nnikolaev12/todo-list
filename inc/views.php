@@ -6,6 +6,21 @@ defined( 'ABSPATH' ) ?: exit;
 
 class Views {
     /**
+     * Register the public components for the plugin
+     */
+    public function register_public_views() {
+        add_shortcode( 'todo-list', [ $this, 'shortcode_callback' ] );
+    }
+
+    public function shortcode_callback() {
+        ob_start();
+        $this->public_view();
+        $content = ob_get_clean();
+
+        return $content;
+    }
+
+    /**
      * Task view for the admin
      */
     public function admin_view()
@@ -34,6 +49,9 @@ class Views {
         ?>
         <section class="todo-list">
             <h2>ToDo List</h2>
+            <ul class="todo-list__tasks"></ul>
+            <div class="todo-list__message todo-list__empty">There are no tasks.</div>
+            <div class="todo-list__message todo-list__error">Sorry, tasks cannot be fetched at this time!</div>
         </section>
         <?php
     }

@@ -34,12 +34,24 @@ class ToDoList
 
         $db = new TLD\DB();
         $db->register_ajax_hooks();
+
+        $views = new TLD\Views();
+        $views->register_public_views();
     }
 
     public function include_admin_assets() {
         wp_enqueue_style( 'todo-list-admin', plugin_dir_url( __FILE__ ) . 'assets/css/admin.min.css', [], '1.0.0' );
         wp_enqueue_script( 'todo-list-admin', plugin_dir_url( __FILE__ ) . 'assets/js/admin.min.js', [ 'jquery' ], '1.0.0', true );
     }
+
+    public function include_public_assets() {
+        wp_enqueue_style( 'todo-list-public', plugin_dir_url( __FILE__ ) . 'assets/css/styles.min.css', [], '1.0.0' );
+        wp_enqueue_script( 'todo-list-public', plugin_dir_url( __FILE__ ) . 'assets/js/main.min.js', [ 'jquery' ], '1.0.0', true );
+
+        // add ajax url to the public script
+        wp_localize_script( 'todo-list-public', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+    }
+
 
     public function add_admin_pages() {
         add_menu_page(

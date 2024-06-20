@@ -18,6 +18,8 @@ class DB {
      */
     public function register_ajax_hooks() {
         add_action( 'wp_ajax_get_tasks', [ $this, 'get_all_tasks' ] );
+        add_action( 'wp_ajax_nopriv_get_tasks', [ $this, 'get_all_tasks' ]);
+
         add_action( 'wp_ajax_create_task', [ $this, 'create_new_task' ] );
         add_action( 'wp_ajax_update_task', [ $this, 'update_task' ] );
         add_action( 'wp_ajax_delete_task', [ $this, 'delete_task' ] );

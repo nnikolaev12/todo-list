@@ -28,6 +28,23 @@ gulp.task("styles", () => {
   );
 });
 
+gulp.task("scripts", () => {
+  return (
+    gulp
+      .src(["src/js/public/components/*.js", "src/js/public/main.js"])
+
+      .pipe(concat("main.js"))
+
+      // Minify js
+      .pipe(uglify())
+
+      .pipe(rename({ suffix: ".min" }))
+
+      // Save minified file
+      .pipe(gulp.dest("assets/js/"))
+  );
+});
+
 gulp.task("admin-styles", () => {
   const plugins = [autoprefixer(), cssnano()];
 
@@ -69,8 +86,11 @@ gulp.task("admin-scripts", () => {
 gulp.task("watch", () => {
   // Run tasks on SCSS changes
   gulp.watch(["src/scss/**/*.scss", "src/js/**/*.js"], (done) => {
-    gulp.series(["styles", "admin-styles", "admin-scripts"])(done);
+    gulp.series(["styles", "scripts", "admin-styles", "admin-scripts"])(done);
   });
 });
 
-gulp.task("default", gulp.series(["styles", "admin-styles", "admin-scripts"]));
+gulp.task(
+  "default",
+  gulp.series(["styles", "scripts", "admin-styles", "admin-scripts"])
+);
