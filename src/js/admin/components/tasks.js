@@ -8,13 +8,17 @@ const Tasks = (($) => {
         action: "get_tasks",
       },
       success: function (response) {
+        let container = $(".todo-list__tasks");
+        const empty = $(".todo-list__tasks--empty");
+
         if (response.type === "error") {
-          _throwError();
+          container.html("");
+          empty.show();
           return;
         }
 
-        let container = $(".todo-list__tasks");
         container.html("");
+        empty.hide();
 
         response.data.forEach((task) => {
           container.append(_getTaskTemplate(task));

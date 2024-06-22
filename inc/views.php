@@ -40,6 +40,7 @@ class Views {
             <?php $this->add_new_task_form(); ?>
 
             <ul class="todo-list__tasks"></ul>
+            <p class="todo-list__tasks--empty">No tasks found.</p>
 
             <?php $this->edit_task_form(); ?>
         </section>

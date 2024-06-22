@@ -41,6 +41,12 @@ class ToDoList
     }
 
     public function include_admin_assets() {
+        // load only on the todo-list page
+        if ( isset ( $_GET['page'] ) && $_GET['page'] === 'todo-list' ) {
+            wp_enqueue_style( 'todo-list-admin', plugin_dir_url( __FILE__ ) . 'assets/css/admin.min.css', [], '1.0.0' );
+            wp_enqueue_script( 'todo-list-admin', plugin_dir_url( __FILE__ ) . 'assets/js/admin.min.js', [ 'jquery' ], '1.0.0', true );
+        }
+
         wp_enqueue_style( 'todo-list-admin', plugin_dir_url( __FILE__ ) . 'assets/css/admin.min.css', [], '1.0.0' );
         wp_enqueue_script( 'todo-list-admin', plugin_dir_url( __FILE__ ) . 'assets/js/admin.min.js', [ 'jquery' ], '1.0.0', true );
     }
