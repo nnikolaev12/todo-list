@@ -36,15 +36,15 @@ class Views {
     {
         ?>
         <section class="todo-list">
-            <h1>ToDo List</h1>
+            <h1><?php _e( "ToDo list", 'tdl' ); ?></h1>
             <div>
-                <button class="todo-list__btn todo-list__btn--primary todo-list__add-btn">&#43; Add New Task</button>
+                <button class="todo-list__btn todo-list__btn--primary todo-list__add-btn">&#43; <?php _e( "Add new task", 'tdl' ); ?></button>
             </div>
             
             <?php $this->add_new_task_form(); ?>
 
             <ul class="todo-list__tasks"></ul>
-            <p class="todo-list__tasks--empty">No tasks found.</p>
+            <p class="todo-list__tasks--empty"><?php _e( "No tasks found.", 'tdl' ); ?></p>
 
             <?php $this->edit_task_form(); ?>
         </section>
@@ -62,8 +62,8 @@ class Views {
                 <h1><?php echo esc_html( $title ); ?></h1>
             <?php endif; ?>
             <ul class="todo-list__tasks"></ul>
-            <div class="todo-list__message todo-list__empty">There are no tasks.</div>
-            <div class="todo-list__message todo-list__error">Sorry, tasks cannot be fetched at this time!</div>
+            <div class="todo-list__message todo-list__empty"><?php _e( "There are no tasks.", 'tdl' ); ?></div>
+            <div class="todo-list__message todo-list__error"><?php _e( "Sorry, tasks cannot be fetched at this time!", 'tdl' ); ?></div>
         </section>
         <?php
     }
@@ -74,15 +74,15 @@ class Views {
         <div class="todo-list__add-task">
             <form action="POST">
                 <div>
-                    <label for="tldTitle">Title</label>
+                    <label for="tldTitle"><?php _e( "Title", 'tdl' ); ?></label>
                     <input id="tldTitle" type="text" name="title" required />
                 </div>
                 <div>
-                    <label for="tldDescription">Description</label>
+                    <label for="tldDescription"><?php _e( "Description", 'tdl' ); ?></label>
                     <textarea id="tldDescription" rows="10" cols="40" required></textarea>
                 </div>
                 <div>
-                    <button class="todo-list__btn todo-list__btn--primary todo-list__add-task--submit">Submit</button>
+                    <button class="todo-list__btn todo-list__btn--primary todo-list__add-task--submit"><?php _e( "Submit", 'tdl' ); ?></button>
                 </div>
             </form>
         </div>
@@ -95,16 +95,16 @@ class Views {
         <div class="todo-list__edit-task">
             <form action="POST">
                 <div>
-                    <label for="tldEditTitle">Title</label>
+                    <label for="tldEditTitle"><?php _e( "Title", 'tdl' ); ?></label>
                     <input id="tldEditTitle" type="text" name="title" required />
                 </div>
                 <div>
-                    <label for="tldEditDescription">Description</label>
+                    <label for="tldEditDescription"><?php _e( "Description", 'tdl' ); ?></label>
                     <textarea id="tldEditDescription" rows="10" cols="40" required></textarea>
                 </div>
                 <div>
                     <input type="hidden" name="id" value="">
-                    <button class="todo-list__btn todo-list__btn--primary todo-list__edit-task--submit">Submit</button>
+                    <button class="todo-list__btn todo-list__btn--primary todo-list__edit-task--submit"><?php _e( "Submit", 'tdl' ); ?></button>
                 </div>
             </form>
             <button class="todo-list__btn todo-list__btn--secondary todo-list__edit-task--close">&#10005;</button>
