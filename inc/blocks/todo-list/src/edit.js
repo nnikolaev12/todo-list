@@ -12,7 +12,8 @@ import { useState, useEffect } from "@wordpress/element";
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from "@wordpress/block-editor";
+import { InspectorControls, useBlockProps } from "@wordpress/block-editor";
+import { PanelBody, TextControl, ToggleControl } from "@wordpress/components";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -31,7 +32,8 @@ import "../../../../src/scss/styles.scss";
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { title } = attributes;
 	// fetch data from rest endpoint
 	const [tasks, setTasks] = useState([]);
 
@@ -44,16 +46,27 @@ export default function Edit() {
 	}, []);
 
 	return (
-		<section {...useBlockProps()}>
-			<h2>ToDo List</h2>
-			<ul class="todo-list__tasks">
-				{tasks.map((task) => (
-					<li key={task.id} class="todo-list__tasks--item">
-						<h3>{task.title}</h3>
-						<p>{task.description}</p>
-					</li>
-				))}
-			</ul>
-		</section>
+		<>
+			<InspectorControls>
+				<PanelBody title={__("Settings", "tdl")}>
+					<TextControl
+						label={__("Title", "tdl")}
+						value={title || ""}
+						onChange={(value) => setAttributes({ title: value })}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<section {...useBlockProps()}>
+				<h2>{title}</h2>
+				<ul class="todo-list__tasks">
+					{tasks.map((task) => (
+						<li key={task.id} class="todo-list__tasks--item">
+							<h3>{task.title}</h3>
+							<p>{task.description}</p>
+						</li>
+					))}
+				</ul>
+			</section>
+		</>
 	);
 }

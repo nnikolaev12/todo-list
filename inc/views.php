@@ -13,9 +13,13 @@ class Views {
         add_action( 'init', [$this, 'register_gutenberg_block'] );
     }
 
-    public function shortcode_callback() {
+    public function shortcode_callback( $atts ) {
+        $atts = shortcode_atts( array(
+            'title' => '',
+        ), $atts, 'todo-list' );
+
         ob_start();
-        $this->public_view();
+        $this->public_view( $atts['title'] );
         $content = ob_get_clean();
 
         return $content;
@@ -50,11 +54,13 @@ class Views {
     /**
      * Task view for the public facing site
      */
-    public function public_view()
+    public function public_view( string $title = '' )
     {
         ?>
         <section class="todo-list">
-            <h2>ToDo List</h2>
+            <?php if ( ! empty( $title ) ) : ?>
+                <h1><?php echo esc_html( $title ); ?></h1>
+            <?php endif; ?>
             <ul class="todo-list__tasks"></ul>
             <div class="todo-list__message todo-list__empty">There are no tasks.</div>
             <div class="todo-list__message todo-list__error">Sorry, tasks cannot be fetched at this time!</div>

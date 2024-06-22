@@ -8,6 +8,12 @@
   "icon": "editor-ul",
   "description": "ToDo list block",
   "example": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Todo List"
+    }
+  },
   "supports": {
     "html": false
   },
