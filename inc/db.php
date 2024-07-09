@@ -72,6 +72,12 @@ class DB {
             'type' => 'error',
         ];
 
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'tdl_new_task_nonce' ) ) {
+            $result['message'] = 'Nonce verification failed.';
+            echo json_encode($result);
+            die;
+        }
+
         if ( empty( $_POST['title']) || empty( $_POST['description'] ) ) {
             echo json_encode( $result );
             die;
@@ -101,6 +107,12 @@ class DB {
         $result = [
             'type' => 'error',
         ];
+ 
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'tdl_edit_task_nonce' ) ) {
+            $result['message'] = 'Nonce verification failed.';
+            echo json_encode($result);
+            die;
+        }
 
         if ( empty( $_POST['id'] ) || empty( $_POST['title'] ) || empty( $_POST['description'] ) ) {
             echo json_encode( $result );

@@ -34,17 +34,27 @@ const Tasks = (($) => {
   };
 
   const saveNewTask = () => {
-    $(".todo-list__add-task").on("submit", function (e) {
+    $(".todo-list__add-task form").on("submit", function (e) {
       e.preventDefault();
 
-      const taskName = $("#tldTitle");
-      const taskDescription = $("#tldDescription");
+      let taskName, taskDescription, taskNonce;
+      const formData = $(this).serializeArray();
 
-      _createTask(taskName.val(), taskDescription.val());
+      formData.forEach((field) => {
+        if (field.name === "title") {
+          taskName = field.value;
+        } else if (field.name === "description") {
+          taskDescription = field.value;
+        } else if (field.name === "add_new_task") {
+          taskNonce = field.value;
+        }
+      });
+
+      _createTask(taskName, taskDescription, taskNonce);
 
       // empty inputs and hide form
-      taskName.val("");
-      taskDescription.val("");
+      $("#tldAddTitle").val("");
+      $("#tldAddDescription").val("");
       $(".todo-list__add-task").slideToggle();
     });
   };
@@ -73,14 +83,25 @@ const Tasks = (($) => {
   };
 
   const updateTask = () => {
-    $(".todo-list__edit-task").on("submit", function (e) {
+    $(".todo-list__edit-task form").on("submit", function (e) {
       e.preventDefault();
 
-      const id = $(this).find("input[name='id']").val();
-      const title = $(this).find("input[name='title']").val();
-      const description = $(this).find("textarea").val();
+      let taskName, taskDescription, taskId, taskNonce;
+      const formData = $(this).serializeArray();
 
-      _updateTask(id, title, description);
+      formData.forEach((field) => {
+        if (field.name === "title") {
+          taskName = field.value;
+        } else if (field.name === "description") {
+          taskDescription = field.value;
+        } else if (field.name === "id") {
+          taskId = field.value;
+        } else if (field.name === "edit_new_task") {
+          taskNonce = field.value;
+        }
+      });
+
+      _updateTask(taskId, taskName, taskDescription, taskNonce);
 
       $(".todo-list__edit-task").hide();
     });
@@ -102,7 +123,7 @@ const Tasks = (($) => {
   /**
    * Private methods
    */
-  const _createTask = (title, description) => {
+  const _createTask = (title, description, nonce) => {
     $.ajax({
       url: ajaxurl,
       type: "POST",
@@ -111,10 +132,11 @@ const Tasks = (($) => {
         action: "create_task",
         title: title,
         description: description,
+        nonce: nonce,
       },
       success: function (response) {
         if (response.type === "error") {
-          _throwError();
+          _throwError(response.message);
           return;
         }
 
@@ -123,7 +145,7 @@ const Tasks = (($) => {
     });
   };
 
-  const _updateTask = (id, title, description) => {
+  const _updateTask = (id, title, description, nonce) => {
     $.ajax({
       url: ajaxurl,
       type: "POST",
@@ -133,10 +155,11 @@ const Tasks = (($) => {
         id: id,
         title: title,
         description: description,
+        nonce: nonce,
       },
       success: function (response) {
         if (response.type === "error") {
-          _throwError();
+          _throwError(response.message);
           return;
         }
 
@@ -180,8 +203,8 @@ const Tasks = (($) => {
     `;
   };
 
-  const _throwError = () => {
-    alert("Something went wrong!");
+  const _throwError = (message) => {
+    alert(message || "Something went wrong. Please try again.");
   };
 
   return {

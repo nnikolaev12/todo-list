@@ -74,13 +74,14 @@ class Views {
         <div class="todo-list__add-task">
             <form action="POST">
                 <div>
-                    <label for="tldTitle"><?php _e( "Title", 'tdl' ); ?></label>
-                    <input id="tldTitle" type="text" name="title" required />
+                    <label for="tldAddTitle"><?php _e( "Title", 'tdl' ); ?></label>
+                    <input id="tldAddTitle" type="text" name="title" required />
                 </div>
                 <div>
-                    <label for="tldDescription"><?php _e( "Description", 'tdl' ); ?></label>
-                    <textarea id="tldDescription" rows="10" cols="40" required></textarea>
+                    <label for="tldAddDescription"><?php _e( "Description", 'tdl' ); ?></label>
+                    <textarea id="tldAddDescription" rows="10" cols="40" name="description" required></textarea>
                 </div>
+                <?php wp_nonce_field( 'tdl_new_task_nonce', 'add_new_task' ); ?>
                 <div>
                     <button class="todo-list__btn todo-list__btn--primary todo-list__add-task--submit"><?php _e( "Submit", 'tdl' ); ?></button>
                 </div>
@@ -100,11 +101,14 @@ class Views {
                 </div>
                 <div>
                     <label for="tldEditDescription"><?php _e( "Description", 'tdl' ); ?></label>
-                    <textarea id="tldEditDescription" rows="10" cols="40" required></textarea>
+                    <textarea id="tldEditDescription" name="description" rows="10" cols="40" required></textarea>
                 </div>
+                <?php wp_nonce_field( 'tdl_edit_task_nonce', 'edit_new_task' ); ?>
                 <div>
                     <input type="hidden" name="id" value="">
-                    <button class="todo-list__btn todo-list__btn--primary todo-list__edit-task--submit"><?php _e( "Submit", 'tdl' ); ?></button>
+                    <button class="todo-list__btn todo-list__btn--primary todo-list__edit-task--submit">
+                        <?php _e( "Submit", 'tdl' ); ?>
+                    </button>
                 </div>
             </form>
             <button class="todo-list__btn todo-list__btn--secondary todo-list__edit-task--close">&#10005;</button>
